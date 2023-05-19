@@ -90,17 +90,14 @@ function RouletteLotteryRef<T>(
 
   const Frag: React.FC = ({ children }) =>
     source ? (
-      //@ts-ignore
       <ImageBackground source={source} style={{ width: width, height: height }}>
         {children}
       </ImageBackground>
     ) : (
-      //@ts-ignore
       <View style={{ width: width, height: height }}>{children}</View>
     );
 
   return (
-    //@ts-ignore
     <Animatable.View
       ref={animateRef}
       duration={spinDuration}
@@ -122,6 +119,7 @@ function RouletteLotteryRef<T>(
           const y = iconPosition * Math.sin((Math.PI * 2 * angle) / 360) + iconOffset;
           return (
             <View
+              key={i}
               style={{
                 position: 'absolute',
                 left: x - 2,
@@ -133,7 +131,7 @@ function RouletteLotteryRef<T>(
                 transform: [{ rotate: angle + 90 + 'deg' }],
               }}
             >
-              <>{renderItem(e, i)}</>
+              {renderItem(e, i)}
             </View>
           );
         })}

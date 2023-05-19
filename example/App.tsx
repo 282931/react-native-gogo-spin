@@ -1,7 +1,7 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useRef, useState } from 'react';
 
-import { GoGoSpin } from '../index';
+import { GoGoSpin } from '../src/GoGoSpin';
 
 const prize = [
   { name: 'x999', image: require('./images/king.png') },

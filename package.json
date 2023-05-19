@@ -1,0 +1,44 @@
+{
+  "name": "react-native-gogo-spin",
+  "version": "0.0.1",
+  "main": "index.tsx",
+  "license": "Apache-2.0",
+  "description": "React native wheel of fortune view component",
+  "author": "Theo <for4die@sina.com> (https://github.com/282931)",
+  "dependencies": {
+    "react-native-animatable": "^1.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/282931/react-native-gogo-spin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/282931/react-native-gogo-spin/issues"
+  },
+  "homepage": "https://github.com/282931/react-native-gogo-spin#readme",
+  "keywords": [
+    "hooks",
+    "typescript",
+    "component",
+    "react native",
+    "react-native",
+    "react",
+    "native",
+    "wheel-of-fortune",
+    "wheel",
+    "fortune",
+    "android",
+    "ios",
+    "web",
+    "react native wheel of fortune",
+    "rn wheel of fortune",
+    "react wheel of fortune",
+    "react native wheel of luck",
+    "rn wheel of luck",
+    "react native gogo spin",
+    "react native spin"
+  ],
+  "contributors": [
+    "Theo <for4die@sina.com> (https://github.com/282931)"
+  ]
+}

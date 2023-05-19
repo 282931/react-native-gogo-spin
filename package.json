@@ -1,12 +1,22 @@
 {
   "name": "react-native-gogo-spin",
-  "version": "0.0.1",
-  "main": "index.tsx",
+  "version": "0.0.3",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "react-native": "src/index.ts",
+  "types": "lib/typescript/index.d.ts",
+  "files": [
+    "lib/",
+    "src/"
+  ],
   "license": "Apache-2.0",
   "description": "React native wheel of fortune view component",
   "author": "Theo <for4die@sina.com> (https://github.com/282931)",
   "dependencies": {
     "react-native-animatable": "^1.3.3"
+  },
+  "scripts": {
+    "prepack": "bob build"
   },
   "repository": {
     "type": "git",
@@ -40,5 +50,27 @@
   ],
   "contributors": [
     "Theo <for4die@sina.com> (https://github.com/282931)"
-  ]
+  ],
+  "devDependencies": {
+    "@types/react": "17.0.37",
+    "@types/react-native": "0.66.3",
+    "react": "17.0.2",
+    "react-native": "0.66.5",
+    "react-native-builder-bob": "^0.20.4",
+    "typescript": "4.2.3"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "commonjs",
+        {
+          "copyFlow": true
+        }
+      ],
+      "module",
+      "typescript"
+    ]
+  }
 }

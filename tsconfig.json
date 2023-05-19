@@ -1,26 +1,21 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
+    "experimentalDecorators": true,
     "jsx": "react-native",
-    "lib": [
-      "es6"
-    ],
+    "module": "es2015",
     "moduleResolution": "node",
-    "noEmit": true,
-    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
     "sourceMap": true,
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
     "skipLibCheck": true,
-    "target": "esnext"
+    "resolveJsonModule": true,
+    "noUnusedParameters": false
   },
-  "exclude": [
-    "node_modules/**",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js",
-    "./expo-example/",
-    "./example/"
-  ]
+  "exclude": ["node_modules", "example"]
 }

@@ -1,14 +1,9 @@
 import * as Animatable from 'react-native-animatable';
 
-import {
-  ImageBackground,
-  ImageSourcePropType,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { ImageBackground, ImageSourcePropType, StyleProp, View, ViewStyle } from 'react-native';
 import React, { useImperativeHandle, useRef } from 'react';
+
+import { StyleSheet } from 'react-native';
 
 export type RouletteLotteryType<T> = {
   width: number;
@@ -27,10 +22,23 @@ export type RouletteLotteryType<T> = {
   source?: ImageSourcePropType;
   notShowDividLine?: boolean;
   spinReverse?: boolean;
+  offsetPercent?: number;
 };
 export type RouletteLotteryHandle = {
   doSpinAnimate: (idx: number) => void;
 };
+const Frag: React.FC<{
+  source?: ImageSourcePropType;
+  width: number;
+  height: number;
+}> = ({ children, source, height, width }) =>
+  source ? (
+    <ImageBackground source={source} style={{ width: width, height: height }}>
+      {children}
+    </ImageBackground>
+  ) : (
+    <View style={{ width: width, height: height }}>{children}</View>
+  );
 
 function RouletteLotteryRef<T>(
   {
@@ -50,6 +58,7 @@ function RouletteLotteryRef<T>(
     source,
     notShowDividLine = false,
     spinReverse = false,
+    offsetPercent = 0.9,
   }: RouletteLotteryType<T>,
   ref: React.ForwardedRef<RouletteLotteryHandle>,
 ) {
@@ -66,8 +75,10 @@ function RouletteLotteryRef<T>(
   const doSpinAnimate = (idx: number) => {
     const rotate = ((spinReverse ? idx : length - idx) / length) * 360;
     const maxOffsetDeg = 360 / length;
-    const randomDeg = offsetEnable ? ~~(maxOffsetDeg * Math.random()) - maxOffsetDeg / 2 : 0;
-    const finalDeg = (spinTime - 1) * 360 + rotate + randomDeg;
+    const randomDeg = offsetEnable
+      ? Math.floor(maxOffsetDeg * Math.random()) - maxOffsetDeg / 2
+      : 0;
+    const finalDeg = (spinTime - 1) * 360 + rotate + randomDeg * offsetPercent;
     const finalAnimate = {
       0: { transform: [{ rotate: '0deg' }] },
       1: {
@@ -88,31 +99,22 @@ function RouletteLotteryRef<T>(
       });
   };
 
-  const Frag: React.FC = ({ children }) =>
-    source ? (
-      <ImageBackground source={source} style={{ width: width, height: height }}>
-        {children}
-      </ImageBackground>
-    ) : (
-      <View style={{ width: width, height: height }}>{children}</View>
-    );
-
   return (
     <Animatable.View
       ref={animateRef}
       duration={spinDuration}
       useNativeDriver
       style={[
+        styles.container,
         {
           width: width,
           height: height,
           borderRadius: radius,
-          overflow: 'hidden',
         },
         wheelStyle,
       ]}
     >
-      <Frag>
+      <Frag source={source} height={height} width={width}>
         {data.map((e, i) => {
           const angle = i * iconsDegree - 90;
           const x = iconPosition * Math.cos((Math.PI * 2 * angle) / 360) + iconOffset;
@@ -120,18 +122,18 @@ function RouletteLotteryRef<T>(
           return (
             <View
               key={i}
-              style={{
-                position: 'absolute',
-                left: x - 2,
-                top: y - 2,
-                width: innerWidth + 4,
-                height: innerHeight + 4,
-                justifyContent: 'center',
-                alignItems: 'center',
-                transform: [{ rotate: angle + 90 + 'deg' }],
-              }}
+              style={[
+                styles.wrap,
+                {
+                  left: x - 2,
+                  top: y - 2,
+                  width: innerWidth + 4,
+                  height: innerHeight + 4,
+                  transform: [{ rotate: angle + 90 + 'deg' }],
+                },
+              ]}
             >
-              {renderItem(e, i)}
+              <>{renderItem(e, i)}</>
             </View>
           );
         })}
@@ -143,30 +145,29 @@ function RouletteLotteryRef<T>(
               transform: [{ rotate: 180 / data.length + 'deg' }],
             }}
           >
-            {data.map((e, i) => {
+            {data.map((_e, i) => {
               const angle = i * iconsDegree - 90;
               const x = iconPosition * Math.cos((Math.PI * 2 * angle) / 360) + iconOffset;
               const y = iconPosition * Math.sin((Math.PI * 2 * angle) / 360) + iconOffset;
               return (
                 <View
-                  style={{
-                    position: 'absolute',
-                    left: x - 2,
-                    top: y - 2,
-                    width: iconSize + 4,
-                    height: iconSize + 4,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    transform: [{ rotate: angle + 90 + 'deg' }],
-                  }}
+                  style={[
+                    styles.wrap,
+                    {
+                      left: x - 2,
+                      top: y - 2,
+                      width: iconSize + 4,
+                      height: iconSize + 4,
+                      transform: [{ rotate: angle + 90 + 'deg' }],
+                    },
+                  ]}
                 >
                   <View
                     style={[
+                      styles.defaultBorderStyle,
                       {
                         width: radius,
-                        height: 1,
                         top: iconSize + 4,
-                        backgroundColor: '#fff',
                         transform: [{ rotate: '90deg' }],
                       },
                       borderStyle,
@@ -181,8 +182,22 @@ function RouletteLotteryRef<T>(
     </Animatable.View>
   );
 }
-
+const styles = StyleSheet.create({
+  container: {
+    overflow: 'hidden',
+  },
+  wrap: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  defaultBorderStyle: {
+    height: 1,
+    backgroundColor: '#fff',
+  },
+});
 export const GoGoSpin = React.forwardRef(RouletteLotteryRef) as <T>(
-  props: RouletteLotteryType<T> & { ref?: React.ForwardedRef<RouletteLotteryHandle> },
+  props: RouletteLotteryType<T> & {
+    ref?: React.ForwardedRef<RouletteLotteryHandle>;
+  },
 ) => ReturnType<typeof RouletteLotteryRef>;
-const styles = StyleSheet.create({});

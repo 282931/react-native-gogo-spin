@@ -95,6 +95,7 @@ export const App = () => {
 | onEndSpinCallBack                    |                         -                         |                 `(finish: boolean) => void`                  | call after spin end                                                                    |
 | notShowDividLine                    |                        false                         |                `boolean`                 | if show the dividing line between each pie                           |
 | offsetEnable                    |                        false                         |                `boolean`                 | false will point to the center of the pie ,true will randomly point to the section of the pie                           |
+| offsetPercent                    |                        0.9                         |                `number 1-0.1`                 | time to offset random angle only works if offsetEnable is true                           |
 | spinReverse                    |                        false                         |                `boolean`                 | spin reverse                           |
 | wheelStyle                       |                         8000                         |                `StyleProp<ViewStyle>`                 | the style of the outside wheel
 | spinTime                    |                       8                       |                `number`                 | the number of the wheel make turns after it point to the prize                                 |
